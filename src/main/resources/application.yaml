@@ -1,0 +1,18 @@
+# Global configuration properties for the entire project
+spring:
+  profiles:
+    active: dev  # You can set this to the profile you are using, e.g., dev, prod
+
+logging:
+  level:
+    root: INFO
+
+# Eureka server settings
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+# Common properties can be defined here if needed
