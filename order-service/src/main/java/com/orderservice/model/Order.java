@@ -14,5 +14,4 @@ public class Order {
     private String customerId;
     private List<String> productIds;
 
-    // Getters and setters
 }

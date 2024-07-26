@@ -4,8 +4,6 @@ import com.customerservice.dto.CustomerDTO;
 import com.customerservice.model.Customer;
 import com.customerservice.repository.CustomerRepository;
 import com.orderservice.dto.OrderDTO;
-import com.productservice.dto.ProductDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,11 +14,15 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final CustomerRepository customerRepository;
+
+    private final RestTemplate restTemplate;
+
+    public CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate) {
+        this.customerRepository = customerRepository;
+        this.restTemplate = restTemplate;
+    }
 
     public List<CustomerDTO> getAllCustomers() {
         return customerRepository.findAll().stream()

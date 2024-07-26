@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    build: .
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
+      - EUREKA_CLIENT_FETCH_REGISTRY=false
+      - EUREKA_SERVER_WAITTIMEINMSWHENSYNCEMPTY=0

@@ -3,7 +3,6 @@ package com.customerservice.controller;
 import com.customerservice.dto.CustomerDTO;
 import com.customerservice.service.CustomerService;
 import com.orderservice.dto.OrderDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +12,12 @@ import java.util.List;
 @RequestMapping("/customers")
 public class CustomerController {
 
-    @Autowired
-    private CustomerService customerService;
+
+    private final CustomerService customerService;
+
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @GetMapping
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {

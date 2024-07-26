@@ -15,11 +15,15 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService {
 
-    @Autowired
-    private OrderRepository orderRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final OrderRepository orderRepository;
+
+    private final RestTemplate restTemplate;
+
+    public OrderService(OrderRepository orderRepository, RestTemplate restTemplate) {
+        this.orderRepository = orderRepository;
+        this.restTemplate = restTemplate;
+    }
 
     public List<OrderDTO> getAllOrders() {
         return orderRepository.findAll().stream()

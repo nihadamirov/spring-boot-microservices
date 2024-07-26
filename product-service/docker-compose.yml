@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  product-service:
+    build: .
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-server
+      - mongodb
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/productdb
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+
+volumes:
+  mongodb-data:
