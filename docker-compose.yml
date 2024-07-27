@@ -10,6 +10,8 @@ services:
       - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
       - EUREKA_CLIENT_FETCH_REGISTRY=false
       - EUREKA_SERVER_WAITTIMEINMSWHENSYNCEMPTY=0
+    networks:
+      - my-bridge-network
 
   api-gateway:
     build:
@@ -20,6 +22,8 @@ services:
       - eureka-server
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    networks:
+      - my-bridge-network
 
   order-service:
     build:
@@ -32,6 +36,8 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
       - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/orderdb
+    networks:
+      - my-bridge-network
 
   product-service:
     build:
@@ -44,6 +50,8 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
       - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/productdb
+    networks:
+      - my-bridge-network
 
   customer-service:
     build:
@@ -56,13 +64,40 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
       - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/customerdb
+    networks:
+      - my-bridge-network
 
   mongodb:
-    image: mongo:latest
+    image: mongo
+    container_name: mongodb
     ports:
       - "27017:27017"
     volumes:
-      - mongodb-data:/data/db
+      - data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=rootuser
+      - MONGO_INITDB_ROOT_PASSWORD=rootpass
+    networks:
+      - my-bridge-network
+    # Uncomment and use the below line if you have an init-mongo.js script for MongoDB initialization
+    command: mongod --auth --bind_ip_all --wiredTigerCacheSizeGB 0.25 --smallfiles
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8089:8089"
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
+      - ME_CONFIG_MONGODB_ADMINUSERPASSWORD=rootpass
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    networks:
+      - my-bridge-network
 
 volumes:
-  mongodb-data:
+  data: {}
+
+networks:
+  my-bridge-network:
+    driver: bridge
