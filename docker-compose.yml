@@ -1,71 +1,70 @@
-version: '3.8'
 
 services:
-  eureka-server:
-    build:
-      context: ./eureka-server
-    ports:
-      - "8761:8761"
-    environment:
-      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
-      - EUREKA_CLIENT_FETCH_REGISTRY=false
-      - EUREKA_SERVER_WAITTIMEINMSWHENSYNCEMPTY=0
-    networks:
-      - my-bridge-network
-
-  api-gateway:
-    build:
-      context: ./api-gateway
-    ports:
-      - "8088:8088"
-    depends_on:
-      - eureka-server
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-    networks:
-      - my-bridge-network
-
-  order-service:
-    build:
-      context: ./order-service
-    ports:
-      - "8083:8083"
-    depends_on:
-      - eureka-server
-      - mongodb
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/orderdb
-    networks:
-      - my-bridge-network
-
-  product-service:
-    build:
-      context: ./product-service
-    ports:
-      - "8082:8082"
-    depends_on:
-      - eureka-server
-      - mongodb
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/productdb
-    networks:
-      - my-bridge-network
-
-  customer-service:
-    build:
-      context: ./customer-service
-    ports:
-      - "8081:8081"
-    depends_on:
-      - eureka-server
-      - mongodb
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/customerdb
-    networks:
-      - my-bridge-network
+#  eureka-server:
+#    build:
+#      context: ./eureka-server
+#    ports:
+#      - "8761:8761"
+#    environment:
+#      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
+#      - EUREKA_CLIENT_FETCH_REGISTRY=false
+#      - EUREKA_SERVER_WAITTIMEINMSWHENSYNCEMPTY=0
+#    networks:
+#      - my-bridge-network
+#
+#  api-gateway:
+#    build:
+#      context: ./api-gateway
+#    ports:
+#      - "8088:8088"
+#    depends_on:
+#      - eureka-server
+#    environment:
+#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+#    networks:
+#      - my-bridge-network
+#
+#  order-service:
+#    build:
+#      context: ./order-service
+#    ports:
+#      - "8083:8083"
+#    depends_on:
+#      - eureka-server
+#      - mongodb
+#    environment:
+#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+#      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/orderdb
+#    networks:
+#      - my-bridge-network
+#
+#  product-service:
+#    build:
+#      context: ./product-service
+#    ports:
+#      - "8082:8082"
+#    depends_on:
+#      - eureka-server
+#      - mongodb
+#    environment:
+#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+#      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/productdb
+#    networks:
+#      - my-bridge-network
+#
+#  customer-service:
+#    build:
+#      context: ./customer-service
+#    ports:
+#      - "8081:8081"
+#    depends_on:
+#      - eureka-server
+#      - mongodb
+#    environment:
+#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+#      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/customerdb
+#    networks:
+#      - my-bridge-network
 
   mongodb:
     image: mongo
@@ -74,18 +73,16 @@ services:
       - "27017:27017"
     volumes:
       - data:/data/db
+      - ./mongo-init-scripts:/docker-entrypoint-initdb.d:ro
     environment:
       - MONGO_INITDB_ROOT_USERNAME=rootuser
       - MONGO_INITDB_ROOT_PASSWORD=rootpass
     networks:
       - my-bridge-network
-    # Uncomment and use the below line if you have an init-mongo.js script for MongoDB initialization
-    command: mongod --auth --bind_ip_all --wiredTigerCacheSizeGB 0.25 --smallfiles
 
   mongo-express:
     image: mongo-express
     container_name: mongo-express
-    restart: always
     ports:
       - "8089:8089"
     environment:
