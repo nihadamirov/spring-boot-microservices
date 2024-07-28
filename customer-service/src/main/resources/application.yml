@@ -1,0 +1,34 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: customer-service
+
+  #  data:
+  #    mongodb:
+  #      uri: mongodb://admin:1212@localhost:27017/customerdb?ssl=true&authSource=admin&authMechanism=SCRAM-SHA-1
+  #      #mongodb+srv://nihadamirov:<password>@cluster0.kqznxya.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+  #      database: customerdb
+  #      port: 27017
+  #      username: admin
+  #      password: 1212
+  #      authentication-database: admin
+  #      host: localhost
+  data:
+    mongodb:
+      uri: mongodb://rootuser:rootpass@localhost:27017/customerdb
+      authentication-database: admin
+      username: rootuser
+      password: rootpass
+      database: customerdb
+      port: 27017
+      host: localhost
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   eureka-server:
@@ -74,18 +73,16 @@ services:
       - "27017:27017"
     volumes:
       - data:/data/db
+      - ./mongo-init-scripts:/docker-entrypoint-initdb.d:ro
     environment:
       - MONGO_INITDB_ROOT_USERNAME=rootuser
       - MONGO_INITDB_ROOT_PASSWORD=rootpass
     networks:
       - my-bridge-network
-    # Uncomment and use the below line if you have an init-mongo.js script for MongoDB initialization
-    command: mongod --auth --bind_ip_all --wiredTigerCacheSizeGB 0.25 --smallfiles
 
   mongo-express:
     image: mongo-express
     container_name: mongo-express
-    restart: always
     ports:
       - "8089:8089"
     environment:
