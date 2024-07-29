@@ -1,17 +1,17 @@
 
 services:
-#  eureka-server:
-#    build:
-#      context: ./eureka-server
-#    ports:
-#      - "8761:8761"
-#    environment:
-#      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
-#      - EUREKA_CLIENT_FETCH_REGISTRY=false
-#      - EUREKA_SERVER_WAITTIMEINMSWHENSYNCEMPTY=0
-#    networks:
-#      - my-bridge-network
-#
+  eureka-server:
+    build:
+      context: ./eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
+      - EUREKA_CLIENT_FETCH_REGISTRY=false
+      - EUREKA_SERVER_WAITTIMEINMSWHENSYNCEMPTY=0
+    networks:
+      - my-bridge-network
+
 #  api-gateway:
 #    build:
 #      context: ./api-gateway
@@ -52,19 +52,19 @@ services:
 #    networks:
 #      - my-bridge-network
 #
-#  customer-service:
-#    build:
-#      context: ./customer-service
-#    ports:
-#      - "8081:8081"
-#    depends_on:
-#      - eureka-server
-#      - mongodb
-#    environment:
-#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-#      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/customerdb
-#    networks:
-#      - my-bridge-network
+  customer-service:
+    build:
+      context: ./customer-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+      - mongodb
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/customerdb
+    networks:
+      - my-bridge-network
 
   mongodb:
     image: mongo
@@ -84,11 +84,20 @@ services:
     image: mongo-express
     container_name: mongo-express
     ports:
-      - "8089:8089"
+      - "8090:8090"
+    depends_on:
+      - mongodb
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
       - ME_CONFIG_MONGODB_ADMINUSERPASSWORD=rootpass
-      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=rootuser   #${MONGO_ROOT_USER}
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=rootpass #${MONGO_ROOT_PASSWORD}
+      - ME_CONFIG_BASICAUTH_USERNAME=rootuser #${MONGOEXPRESS_LOGIN}
+      - ME_CONFIG_BASICAUTH_PASSWORD=rootpass #${MONGOEXPRESS_PASSWORD}
     networks:
       - my-bridge-network
 

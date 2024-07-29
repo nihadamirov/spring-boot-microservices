@@ -1,0 +1,36 @@
+#version: '3.8'
+
+services:
+#
+#  customer-service:
+#    image: customer-service
+#    container_name: customer-service
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      - SPRING_DATA_MONGODB_URI=mongodb://rootuser:rootpass@mongo:27017/customerdb
+#      - SPRING_DATA_MONGODB_DATABASE=customerdb
+#      - SPRING_DATA_MONGODB_USERNAME=rootuser
+#      - SPRING_DATA_MONGODB_PASSWORD=rootpass
+#      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://localhost:8761/eureka/
+#    depends_on:
+#      - mongo
+
+  db:
+    image: mongo
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: rootuser
+      MONGO_INITDB_ROOT_PASSWORD: rootpass
+      MONGO_INITDB_DATABASE: customerdb
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
