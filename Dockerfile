@@ -13,7 +13,7 @@ WORKDIR /app
 
 COPY --from=build /spring-boot-microservices/build/libs/*.jar /app/
 
-EXPOSE 8761 8088 8081 8082 8083
+EXPOSE 8761 8088 8081 8082 8083 8090
 
 ENTRYPOINT ["java", "-jar", "/app/*.jar"]
 

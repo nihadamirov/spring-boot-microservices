@@ -12,46 +12,46 @@ services:
     networks:
       - my-bridge-network
 
-#  api-gateway:
-#    build:
-#      context: ./api-gateway
-#    ports:
-#      - "8088:8088"
-#    depends_on:
-#      - eureka-server
-#    environment:
-#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-#    networks:
-#      - my-bridge-network
-#
-#  order-service:
-#    build:
-#      context: ./order-service
-#    ports:
-#      - "8083:8083"
-#    depends_on:
-#      - eureka-server
-#      - mongodb
-#    environment:
-#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-#      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/orderdb
-#    networks:
-#      - my-bridge-network
-#
-#  product-service:
-#    build:
-#      context: ./product-service
-#    ports:
-#      - "8082:8082"
-#    depends_on:
-#      - eureka-server
-#      - mongodb
-#    environment:
-#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-#      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/productdb
-#    networks:
-#      - my-bridge-network
-#
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "8088:8088"
+    depends_on:
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    networks:
+      - my-bridge-network
+
+  order-service:
+    build:
+      context: ./order-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-server
+      - mongodb
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/orderdb
+    networks:
+      - my-bridge-network
+
+  product-service:
+    build:
+      context: ./product-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-server
+      - mongodb
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/productdb
+    networks:
+      - my-bridge-network
+
   customer-service:
     build:
       context: ./customer-service
@@ -94,10 +94,6 @@ services:
       - ME_CONFIG_MONGODB_PORT=27017
       - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
       - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
-      - ME_CONFIG_MONGODB_AUTH_USERNAME=rootuser   #${MONGO_ROOT_USER}
-      - ME_CONFIG_MONGODB_AUTH_PASSWORD=rootpass #${MONGO_ROOT_PASSWORD}
-      - ME_CONFIG_BASICAUTH_USERNAME=rootuser #${MONGOEXPRESS_LOGIN}
-      - ME_CONFIG_BASICAUTH_PASSWORD=rootpass #${MONGOEXPRESS_PASSWORD}
     networks:
       - my-bridge-network
 
