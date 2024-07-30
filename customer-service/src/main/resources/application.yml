@@ -5,15 +5,7 @@ spring:
   application:
     name: customer-service
 
-#  data:
-#    mongodb:
-#      uri: mongodb://rootuser:rootpass@localhost:27017/customerdb
-#      authentication-database: admin
-#      username: rootuser
-#      password: rootpass
-#      database: customerdb
-#      port: 27017
-#      host: localhost
+
   data:
     mongodb:
       uri: mongodb://rootuser:rootpass@localhost:27017/customerdb?ssl=false&authSource=admin&authMechanism=SCRAM-SHA-1
@@ -23,9 +15,6 @@ spring:
       password: rootpass
       host: localhost
       port: 27017
-
-
-
 
 eureka:
   client:
