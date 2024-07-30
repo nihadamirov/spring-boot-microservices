@@ -4,6 +4,7 @@ import com.customerservice.dto.CustomerDTO;
 import com.customerservice.service.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -13,10 +14,25 @@ public class CustomerController {
 
 
     private final CustomerService customerService;
+    private final RestTemplate restTemplate;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, RestTemplate restTemplate) {
         this.customerService = customerService;
+        this.restTemplate = restTemplate;
     }
+
+    @GetMapping("/order")
+    public String callOrderService() {
+        String response = restTemplate.getForObject("http://order-service/orders", String.class);
+        return response;
+    }
+
+    @GetMapping("/product")
+    public String callProductService() {
+        String response = restTemplate.getForObject("http://product-service/products", String.class);
+        return response;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {

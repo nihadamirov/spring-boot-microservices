@@ -33,6 +33,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-ribbon
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon:2.2.10.RELEASE'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
