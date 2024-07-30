@@ -43,6 +43,7 @@ public class CustomerService {
             Customer customer = optionalCustomer.get();
             customer.setName(customerDTO.name());
             customer.setEmail(customerDTO.email());
+            customer.setPhone(customerDTO.phone());
             Customer updatedCustomer = customerRepository.save(customer);
             return convertToDTO(updatedCustomer);
         }
@@ -54,7 +55,7 @@ public class CustomerService {
     }
 
     private CustomerDTO convertToDTO(Customer customer) {
-        return new CustomerDTO(customer.getId(), customer.getName(), customer.getEmail());
+        return new CustomerDTO(customer.getId(), customer.getName(), customer.getEmail(),customer.getPhone());
     }
 
     private Customer convertToEntity(CustomerDTO customerDTO) {
@@ -62,6 +63,7 @@ public class CustomerService {
         customer.setId(customerDTO.id());
         customer.setName(customerDTO.name());
         customer.setEmail(customerDTO.email());
+        customer.setPhone(customerDTO.phone());
         return customer;
     }
 }

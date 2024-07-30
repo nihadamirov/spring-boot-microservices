@@ -7,17 +7,17 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://rootuser:rootpass@localhost:27017/productdb
+      uri: mongodb://rootuser:rootpass@localhost:27017/productdb?ssl=false&authSource=admin&authMechanism=SCRAM-SHA-1
       authentication-database: admin
+      database: productdb
       username: rootuser
       password: rootpass
-      database: productdb
-      port: 27017
       host: localhost
+      port: 27017
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://localhost:8761/eureka/
+    instance:
+      prefer-ip-address: true
